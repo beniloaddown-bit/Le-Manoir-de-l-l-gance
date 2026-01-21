@@ -1,27 +1,18 @@
 import { useParams, Navigate, Link } from "react-router-dom";
-import { motion, useScroll, useTransform } from "framer-motion";
-import { useRef } from "react";
+import { motion } from "framer-motion";
 import { ArrowLeft, MessageCircle, Ruler, Palette, Sparkles } from "lucide-react";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
 import { Button } from "@/components/ui/button";
 import { ProductCard } from "@/components/ProductCard";
+import { ProductGallery } from "@/components/ProductGallery";
 import { getCollectionBySlug, getProductById, WHATSAPP_NUMBER } from "@/data/collections";
 
 const ProductPage = () => {
   const { slug, productId } = useParams<{ slug: string; productId: string }>();
   const collection = slug ? getCollectionBySlug(slug) : undefined;
   const product = slug && productId ? getProductById(slug, productId) : undefined;
-  
-  const heroRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: heroRef,
-    offset: ["start start", "end start"],
-  });
-  
-  const imageScale = useTransform(scrollYProgress, [0, 1], [1, 1.1]);
-  const imageY = useTransform(scrollYProgress, [0, 1], ["0%", "20%"]);
 
   if (!collection || !product) {
     return <Navigate to="/" replace />;
@@ -41,7 +32,7 @@ const ProductPage = () => {
       <Header />
 
       {/* Hero Section */}
-      <div ref={heroRef} className="relative pt-24">
+      <div className="relative pt-24">
         <div className="container mx-auto px-6 py-12">
           {/* Breadcrumb */}
           <motion.nav
@@ -60,41 +51,15 @@ const ProductPage = () => {
           </motion.nav>
 
           <div className="grid lg:grid-cols-2 gap-12 lg:gap-16">
-            {/* Image */}
+            {/* Product Gallery */}
             <motion.div
               initial={{ opacity: 0, x: -50 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8 }}
-              className="relative aspect-[3/4] overflow-hidden luxury-card"
             >
-              <motion.img
-                src={product.image}
-                alt={product.name}
-                className="w-full h-full object-cover"
-                style={{ scale: imageScale, y: imageY }}
-              />
-              
-              {/* Featured Badge */}
-              {product.featured && (
-                <div className="absolute top-6 left-6">
-                  <span className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-primary-foreground text-sm tracking-luxury uppercase">
-                    <Sparkles className="w-4 h-4" />
-                    Vedette
-                  </span>
-                </div>
-              )}
-
-              {/* Golden Glow Effect */}
-              <motion.div
-                className="absolute inset-0 pointer-events-none"
-                animate={{
-                  background: [
-                    "radial-gradient(circle at 30% 30%, hsl(var(--primary) / 0.1) 0%, transparent 50%)",
-                    "radial-gradient(circle at 70% 70%, hsl(var(--primary) / 0.1) 0%, transparent 50%)",
-                    "radial-gradient(circle at 30% 30%, hsl(var(--primary) / 0.1) 0%, transparent 50%)",
-                  ],
-                }}
-                transition={{ duration: 8, repeat: Infinity }}
+              <ProductGallery 
+                images={product.images} 
+                productName={product.name} 
               />
             </motion.div>
 
