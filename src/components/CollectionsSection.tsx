@@ -1,43 +1,50 @@
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useInView } from "framer-motion";
 import { useRef } from "react";
-import { MessageCircle } from "lucide-react";
+import { ArrowRight, Eye } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
 import ceremonyImage from "@/assets/collection-ceremony.jpg";
 import weddingImage from "@/assets/collection-wedding.jpg";
 import businessImage from "@/assets/collection-business.jpg";
 import bespokeImage from "@/assets/collection-bespoke.jpg";
 
-const WHATSAPP_NUMBER = "1234567890";
-
 const collections = [
   {
     id: "ceremony",
+    slug: "ceremony",
     title: "Tenues de Cérémonie",
     description: "Des créations majestueuses pour vos moments les plus précieux",
     image: ceremonyImage,
     category: "Cérémonie",
+    count: 6,
   },
   {
     id: "wedding",
+    slug: "mariage",
     title: "Mariage & Baptême",
     description: "Sublimez vos célébrations avec nos tenues d'exception",
     image: weddingImage,
     category: "Mariage",
+    count: 6,
   },
   {
     id: "business",
+    slug: "business",
     title: "Bureau & Formel",
     description: "L'élégance professionnelle avec une touche africaine distinctive",
     image: businessImage,
     category: "Business",
+    count: 6,
   },
   {
     id: "bespoke",
+    slug: "sur-mesure",
     title: "Sur-Mesure",
     description: "Créations uniques, taillées selon vos désirs",
     image: bespokeImage,
     category: "Bespoke",
+    count: 6,
   },
 ];
 
@@ -59,118 +66,115 @@ const CollectionCard = ({
   const imageY = useTransform(scrollYProgress, [0, 1], [50, -50]);
   const imageScale = useTransform(scrollYProgress, [0, 0.5, 1], [1.2, 1.1, 1]);
 
-  const whatsappMessage = encodeURIComponent(
-    `Bonjour, je suis intéressé(e) par la collection "${collection.title}" du Manoir de l'Élégance. Pouvez-vous me donner plus d'informations?`
-  );
-
   return (
-    <motion.div
-      ref={cardRef}
-      initial={{ opacity: 0, y: 100, scale: 0.9 }}
-      animate={isInView ? { opacity: 1, y: 0, scale: 1 } : {}}
-      transition={{ 
-        duration: 0.8, 
-        delay: index * 0.2,
-        ease: "easeOut"
-      }}
-      className="group luxury-card"
-    >
-      <div className="relative aspect-[3/4] overflow-hidden">
-        <motion.div
-          initial={{ x: "-100%" }}
-          animate={isInView ? { x: "200%" } : { x: "-100%" }}
-          transition={{ duration: 1.2, delay: index * 0.2 + 0.5, ease: "easeInOut" }}
-          className="absolute inset-0 z-20 pointer-events-none"
-          style={{
-            background: "linear-gradient(90deg, transparent 0%, hsl(43 74% 49% / 0.3) 50%, transparent 100%)",
-            width: "50%",
-          }}
-        />
-        
-        <motion.div
-          initial={{ clipPath: "polygon(0 100%, 100% 100%, 100% 100%, 0 100%)" }}
-          animate={isInView ? { clipPath: "polygon(0 0%, 100% 0%, 100% 100%, 0 100%)" } : {}}
-          transition={{ duration: 1, delay: index * 0.2, ease: "easeOut" }}
-          className="absolute inset-0"
-        >
-          <motion.img
-            src={collection.image}
-            alt={collection.title}
-            className="w-full h-full object-cover"
-            style={{ y: imageY, scale: imageScale }}
+    <Link to={`/collections/${collection.slug}`} className="block">
+      <motion.div
+        ref={cardRef}
+        initial={{ opacity: 0, y: 100, scale: 0.9 }}
+        animate={isInView ? { opacity: 1, y: 0, scale: 1 } : {}}
+        transition={{ 
+          duration: 0.8, 
+          delay: index * 0.2,
+          ease: "easeOut"
+        }}
+        className="group luxury-card"
+      >
+        <div className="relative aspect-[3/4] overflow-hidden">
+          <motion.div
+            initial={{ x: "-100%" }}
+            animate={isInView ? { x: "200%" } : { x: "-100%" }}
+            transition={{ duration: 1.2, delay: index * 0.2 + 0.5, ease: "easeInOut" }}
+            className="absolute inset-0 z-20 pointer-events-none"
+            style={{
+              background: "linear-gradient(90deg, transparent 0%, hsl(43 74% 49% / 0.3) 50%, transparent 100%)",
+              width: "50%",
+            }}
           />
-        </motion.div>
-        
-        <motion.div 
-          className="absolute inset-0 bg-gradient-to-t from-background via-background/30 to-transparent"
-          initial={{ opacity: 0 }}
-          animate={isInView ? { opacity: 1 } : { opacity: 0 }}
-          transition={{ duration: 0.8, delay: index * 0.2 + 0.5 }}
-        />
-        
-        <motion.div
-          className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-          style={{
-            background: "radial-gradient(circle at center, hsl(43 74% 49% / 0.1) 0%, transparent 70%)",
-          }}
-        />
-        
-        <motion.div 
-          className="absolute top-4 left-4 z-10"
-          initial={{ opacity: 0, x: -20 }}
-          animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -20 }}
-          transition={{ duration: 0.5, delay: index * 0.2 + 0.6 }}
-        >
-          <span className="inline-block px-4 py-2 bg-primary/90 text-primary-foreground text-xs tracking-luxury uppercase backdrop-blur-sm">
-            {collection.category}
-          </span>
-        </motion.div>
-
-        <motion.div 
-          className="absolute inset-x-0 bottom-0 p-6 z-10"
-          initial={{ opacity: 0, y: 30 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6, delay: index * 0.2 + 0.3, ease: "easeOut" }}
-        >
-          <motion.h3 
-            className="font-display text-2xl text-foreground mb-2 group-hover:text-primary transition-colors duration-300"
-            whileHover={{ x: 5 }}
-            transition={{ duration: 0.3 }}
-          >
-            {collection.title}
-          </motion.h3>
-          <p className="font-body text-foreground/70 text-sm mb-4 leading-relaxed">
-            {collection.description}
-          </p>
           
-          <div className="overflow-hidden">
-            <Button
-              variant="luxury"
-              size="sm"
-              className="w-full opacity-0 group-hover:opacity-100 transition-all duration-500 translate-y-4 group-hover:translate-y-0"
-              onClick={() =>
-                window.open(
-                  `https://wa.me/${WHATSAPP_NUMBER}?text=${whatsappMessage}`,
-                  "_blank"
-                )
-              }
-            >
-              <MessageCircle className="w-4 h-4" />
-              <span>Commander</span>
-            </Button>
-          </div>
-        </motion.div>
+          <motion.div
+            initial={{ clipPath: "polygon(0 100%, 100% 100%, 100% 100%, 0 100%)" }}
+            animate={isInView ? { clipPath: "polygon(0 0%, 100% 0%, 100% 100%, 0 100%)" } : {}}
+            transition={{ duration: 1, delay: index * 0.2, ease: "easeOut" }}
+            className="absolute inset-0"
+          >
+            <motion.img
+              src={collection.image}
+              alt={collection.title}
+              className="w-full h-full object-cover"
+              style={{ y: imageY, scale: imageScale }}
+            />
+          </motion.div>
+          
+          <motion.div 
+            className="absolute inset-0 bg-gradient-to-t from-background via-background/30 to-transparent"
+            initial={{ opacity: 0 }}
+            animate={isInView ? { opacity: 1 } : { opacity: 0 }}
+            transition={{ duration: 0.8, delay: index * 0.2 + 0.5 }}
+          />
+          
+          <motion.div
+            className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+            style={{
+              background: "radial-gradient(circle at center, hsl(43 74% 49% / 0.1) 0%, transparent 70%)",
+            }}
+          />
+          
+          <motion.div 
+            className="absolute top-4 left-4 z-10"
+            initial={{ opacity: 0, x: -20 }}
+            animate={isInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -20 }}
+            transition={{ duration: 0.5, delay: index * 0.2 + 0.6 }}
+          >
+            <span className="inline-block px-4 py-2 bg-primary/90 text-primary-foreground text-xs tracking-luxury uppercase backdrop-blur-sm">
+              {collection.category}
+            </span>
+          </motion.div>
 
-        <div className="absolute top-4 right-4 w-8 h-8 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-          <div className="absolute top-0 right-0 w-full h-px bg-primary" />
-          <div className="absolute top-0 right-0 w-px h-full bg-primary" />
+          <motion.div 
+            className="absolute inset-x-0 bottom-0 p-6 z-10"
+            initial={{ opacity: 0, y: 30 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.6, delay: index * 0.2 + 0.3, ease: "easeOut" }}
+          >
+            <motion.h3 
+              className="font-display text-2xl text-foreground mb-2 group-hover:text-primary transition-colors duration-300"
+              whileHover={{ x: 5 }}
+              transition={{ duration: 0.3 }}
+            >
+              {collection.title}
+            </motion.h3>
+            <p className="font-body text-foreground/70 text-sm mb-3 leading-relaxed">
+              {collection.description}
+            </p>
+            
+            <p className="font-body text-primary/80 text-xs mb-4">
+              {collection.count} créations
+            </p>
+            
+            <div className="overflow-hidden">
+              <Button
+                variant="luxury"
+                size="sm"
+                className="w-full opacity-0 group-hover:opacity-100 transition-all duration-500 translate-y-4 group-hover:translate-y-0"
+              >
+                <Eye className="w-4 h-4" />
+                <span>Découvrir</span>
+                <ArrowRight className="w-4 h-4" />
+              </Button>
+            </div>
+          </motion.div>
+
+          <div className="absolute top-4 right-4 w-8 h-8 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+            <div className="absolute top-0 right-0 w-full h-px bg-primary" />
+            <div className="absolute top-0 right-0 w-px h-full bg-primary" />
+          </div>
+          <div className="absolute bottom-4 left-4 w-8 h-8 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+            <div className="absolute bottom-0 left-0 w-full h-px bg-primary" />
+            <div className="absolute bottom-0 left-0 w-px h-full bg-primary" />
+          </div>
         </div>
-        <div className="absolute bottom-4 left-4 w-8 h-8 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-          <div className="absolute bottom-0 left-0 w-full h-px bg-primary" />
-          <div className="absolute bottom-0 left-0 w-px h-full bg-primary" />
-        </div>
-      </div>
-    </motion.div>
+      </motion.div>
+    </Link>
   );
 };
 
