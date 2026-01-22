@@ -1,16 +1,18 @@
 import { useParams, Navigate, Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { ArrowLeft, MessageCircle, Ruler, Palette, Sparkles } from "lucide-react";
+import { ArrowLeft, MessageCircle, Ruler, Palette } from "lucide-react";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
 import { Button } from "@/components/ui/button";
 import { ProductCard } from "@/components/ProductCard";
 import { ProductGallery } from "@/components/ProductGallery";
-import { getCollectionBySlug, getProductById, WHATSAPP_NUMBER } from "@/data/collections";
+import { useCollections } from "@/hooks/useCollections";
 
 const ProductPage = () => {
   const { slug, productId } = useParams<{ slug: string; productId: string }>();
+  const { getCollectionBySlug, getProductById } = useCollections();
+  
   const collection = slug ? getCollectionBySlug(slug) : undefined;
   const product = slug && productId ? getProductById(slug, productId) : undefined;
 
@@ -18,6 +20,7 @@ const ProductPage = () => {
     return <Navigate to="/" replace />;
   }
 
+  const whatsappNumber = localStorage.getItem('whatsapp_number') || '1234567890';
   const whatsappMessage = encodeURIComponent(
     `Bonjour, je suis intéressé(e) par "${product.name}" de la collection ${collection.title} du Manoir de l'Élégance. Je souhaite obtenir plus d'informations et un devis personnalisé.`
   );
@@ -153,7 +156,7 @@ const ProductPage = () => {
                   className="flex-1"
                   onClick={() =>
                     window.open(
-                      `https://wa.me/${WHATSAPP_NUMBER}?text=${whatsappMessage}`,
+                      `https://wa.me/${whatsappNumber}?text=${whatsappMessage}`,
                       "_blank"
                     )
                   }
