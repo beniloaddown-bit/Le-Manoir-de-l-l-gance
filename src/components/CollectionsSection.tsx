@@ -4,55 +4,21 @@ import { useRef } from "react";
 import { ArrowRight, Eye } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
-import ceremonyImage from "@/assets/collection-ceremony.jpg";
-import weddingImage from "@/assets/collection-wedding.jpg";
-import businessImage from "@/assets/collection-business.jpg";
-import bespokeImage from "@/assets/collection-bespoke.jpg";
-
-const collections = [
-  {
-    id: "ceremony",
-    slug: "ceremony",
-    title: "Tenues de Cérémonie",
-    description: "Des créations majestueuses pour vos moments les plus précieux",
-    image: ceremonyImage,
-    category: "Cérémonie",
-    count: 6,
-  },
-  {
-    id: "wedding",
-    slug: "mariage",
-    title: "Mariage & Baptême",
-    description: "Sublimez vos célébrations avec nos tenues d'exception",
-    image: weddingImage,
-    category: "Mariage",
-    count: 6,
-  },
-  {
-    id: "business",
-    slug: "business",
-    title: "Bureau & Formel",
-    description: "L'élégance professionnelle avec une touche africaine distinctive",
-    image: businessImage,
-    category: "Business",
-    count: 6,
-  },
-  {
-    id: "bespoke",
-    slug: "sur-mesure",
-    title: "Sur-Mesure",
-    description: "Créations uniques, taillées selon vos désirs",
-    image: bespokeImage,
-    category: "Bespoke",
-    count: 6,
-  },
-];
+import { useCollections } from "@/hooks/useCollections";
 
 const CollectionCard = ({
   collection,
   index,
 }: {
-  collection: (typeof collections)[0];
+  collection: {
+    id: string;
+    slug: string;
+    title: string;
+    description: string;
+    heroImage: string;
+    category: string;
+    products: { length: number }[] | { id: string }[];
+  };
   index: number;
 }) => {
   const cardRef = useRef<HTMLDivElement>(null);
@@ -65,6 +31,8 @@ const CollectionCard = ({
   
   const imageY = useTransform(scrollYProgress, [0, 1], [50, -50]);
   const imageScale = useTransform(scrollYProgress, [0, 0.5, 1], [1.2, 1.1, 1]);
+
+  const productCount = Array.isArray(collection.products) ? collection.products.length : 0;
 
   return (
     <Link to={`/collections/${collection.slug}`} className="block">
@@ -98,7 +66,7 @@ const CollectionCard = ({
             className="absolute inset-0"
           >
             <motion.img
-              src={collection.image}
+              src={collection.heroImage}
               alt={collection.title}
               className="w-full h-full object-cover"
               style={{ y: imageY, scale: imageScale }}
@@ -148,7 +116,7 @@ const CollectionCard = ({
             </p>
             
             <p className="font-body text-primary/80 text-xs mb-4">
-              {collection.count} créations
+              {productCount} créations
             </p>
             
             <div className="overflow-hidden">
@@ -181,6 +149,7 @@ const CollectionCard = ({
 export const CollectionsSection = () => {
   const sectionRef = useRef<HTMLElement>(null);
   const isInView = useInView(sectionRef, { once: true, margin: "-100px" });
+  const { collections } = useCollections();
   
   const { scrollYProgress } = useScroll({
     target: sectionRef,

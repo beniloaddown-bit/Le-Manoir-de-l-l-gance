@@ -5,11 +5,12 @@ import { Footer } from "@/components/Footer";
 import { WhatsAppButton } from "@/components/WhatsAppButton";
 import { CollectionHero } from "@/components/CollectionHero";
 import { ProductCard } from "@/components/ProductCard";
-import { getCollectionBySlug, collections } from "@/data/collections";
+import { useCollections } from "@/hooks/useCollections";
 import { Link } from "react-router-dom";
 
 const CollectionPage = () => {
   const { slug } = useParams<{ slug: string }>();
+  const { collections, getCollectionBySlug } = useCollections();
   const collection = slug ? getCollectionBySlug(slug) : undefined;
 
   if (!collection) {
