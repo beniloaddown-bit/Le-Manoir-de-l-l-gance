@@ -1,4 +1,5 @@
-import { useParams, Navigate } from "react-router-dom";
+import { useParams, Navigate, Link } from "react-router-dom";
+import { useEffect } from "react";
 import { motion } from "framer-motion";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
@@ -6,12 +7,16 @@ import { WhatsAppButton } from "@/components/WhatsAppButton";
 import { CollectionHero } from "@/components/CollectionHero";
 import { ProductCard } from "@/components/ProductCard";
 import { useCollections } from "@/hooks/useCollections";
-import { Link } from "react-router-dom";
 
 const CollectionPage = () => {
   const { slug } = useParams<{ slug: string }>();
   const { collections, getCollectionBySlug } = useCollections();
   const collection = slug ? getCollectionBySlug(slug) : undefined;
+
+  // Scroll to top when navigating to this page or changing collection
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [slug]);
 
   if (!collection) {
     return <Navigate to="/" replace />;

@@ -1,4 +1,5 @@
 import { useParams, Navigate, Link } from "react-router-dom";
+import { useEffect } from "react";
 import { motion } from "framer-motion";
 import { ArrowLeft, MessageCircle, Ruler, Palette } from "lucide-react";
 import { Header } from "@/components/Header";
@@ -15,6 +16,11 @@ const ProductPage = () => {
   
   const collection = slug ? getCollectionBySlug(slug) : undefined;
   const product = slug && productId ? getProductById(slug, productId) : undefined;
+
+  // Scroll to top when navigating to this page or changing product
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [slug, productId]);
 
   if (!collection || !product) {
     return <Navigate to="/" replace />;
