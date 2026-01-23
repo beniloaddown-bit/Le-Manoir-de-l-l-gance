@@ -91,10 +91,6 @@ const AdminLogin = () => {
             </a>
           </div>
         </div>
-
-        <p className="text-center text-xs text-muted-foreground mt-4">
-          Mot de passe par défaut: admin2024
-        </p>
       </motion.div>
     </div>
   );

@@ -20,11 +20,40 @@ const ImageUploader = ({
   const [isDragging, setIsDragging] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
+  const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB max
+  const ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
+  // SVG is excluded to prevent XSS attacks via embedded scripts
+
+  const validateImageFile = (file: File): { valid: boolean; error?: string } => {
+    // Check file size
+    if (file.size > MAX_FILE_SIZE) {
+      return { valid: false, error: `File too large: ${file.name} (max 5MB)` };
+    }
+    
+    // Check MIME type - reject SVG and unsupported types
+    if (!ALLOWED_TYPES.includes(file.type)) {
+      return { valid: false, error: `Unsupported file type: ${file.type}. Only JPEG, PNG, GIF, and WebP are allowed.` };
+    }
+    
+    return { valid: true };
+  };
+
   const convertToBase64 = (file: File): Promise<string> => {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
       reader.readAsDataURL(file);
-      reader.onload = () => resolve(reader.result as string);
+      reader.onload = () => {
+        const result = reader.result as string;
+        // Validate the data URL starts with expected image MIME types
+        if (!result.startsWith('data:image/jpeg') && 
+            !result.startsWith('data:image/png') && 
+            !result.startsWith('data:image/gif') && 
+            !result.startsWith('data:image/webp')) {
+          reject(new Error('Invalid image data format'));
+          return;
+        }
+        resolve(result);
+      };
       reader.onerror = (error) => reject(error);
     });
   };
@@ -35,13 +64,17 @@ const ImageUploader = ({
 
     const newImages: string[] = [];
     for (const file of filesToProcess) {
-      if (file.type.startsWith('image/')) {
-        try {
-          const base64 = await convertToBase64(file);
-          newImages.push(base64);
-        } catch (error) {
-          console.error('Error converting image:', error);
-        }
+      const validation = validateImageFile(file);
+      if (!validation.valid) {
+        console.warn('Image validation failed:', validation.error);
+        continue;
+      }
+      
+      try {
+        const base64 = await convertToBase64(file);
+        newImages.push(base64);
+      } catch (error) {
+        console.warn('Error converting image:', error);
       }
     }
 
