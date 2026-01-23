@@ -124,7 +124,7 @@ const AdminProducts = () => {
     }
   };
 
-  const filteredProducts = selectedCollection
+  const filteredProducts = selectedCollection && selectedCollection !== 'all'
     ? collections.find((c) => c.id === selectedCollection)?.products || []
     : collections.flatMap((c) =>
         c.products.map((p) => ({ ...p, collectionId: c.id, collectionTitle: c.title }))
@@ -155,7 +155,7 @@ const AdminProducts = () => {
               <SelectValue placeholder="Toutes les collections" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="">Toutes les collections</SelectItem>
+              <SelectItem value="all">Toutes les collections</SelectItem>
               {collections.map((col) => (
                 <SelectItem key={col.id} value={col.id}>
                   {col.title}
@@ -167,7 +167,7 @@ const AdminProducts = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
           <AnimatePresence>
-            {(selectedCollection
+            {(selectedCollection && selectedCollection !== 'all'
               ? (collections.find((c) => c.id === selectedCollection)?.products || []).map((p) => ({
                   ...p,
                   collectionId: selectedCollection,
