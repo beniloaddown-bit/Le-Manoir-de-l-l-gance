@@ -13,7 +13,7 @@ const TikTokIcon = ({ className }: { className?: string }) => (
 );
 import logo from "@/assets/logo.png";
 
-const WHATSAPP_NUMBER = "1234567890";
+const WHATSAPP_NUMBER = "221755236363";
 const WHATSAPP_MESSAGE = encodeURIComponent(
   "Bonjour, je souhaite en savoir plus sur Le Manoir de l'Élégance."
 );
