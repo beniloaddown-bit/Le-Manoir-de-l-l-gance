@@ -74,56 +74,45 @@ export const Footer = () => {
             </p>
 
             {/* Social Links */}
-            <div className="flex items-center gap-4">
-              <motion.a
-                href="https://www.instagram.com/le_manoir_de_lelegance?igsh=YWw0c2d5cTZlZXJ1&utm_source=qr"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="p-3 border border-primary/20 hover:border-primary hover:bg-primary/10 transition-colors duration-300"
-                aria-label="Instagram"
-                whileHover={{ scale: 1.15, rotate: 5 }}
-                whileTap={{ scale: 0.95 }}
-                transition={{ type: "spring", stiffness: 400, damping: 17 }}
-              >
-                <Instagram className="w-5 h-5 text-primary" />
-              </motion.a>
-              <motion.a
-                href="https://www.tiktok.com/@manoirelegance?_r=1&_t=ZS-93F7ma1TPdN"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="p-3 border border-primary/20 hover:border-primary hover:bg-primary/10 transition-colors duration-300"
-                aria-label="TikTok"
-                whileHover={{ scale: 1.15, rotate: -5 }}
-                whileTap={{ scale: 0.95 }}
-                transition={{ type: "spring", stiffness: 400, damping: 17 }}
-              >
-                <TikTokIcon className="w-5 h-5 text-primary" />
-              </motion.a>
-              <motion.a
-                href="https://www.facebook.com/share/1Dmub997qX/?mibextid=wwXIfr"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="p-3 border border-primary/20 hover:border-primary hover:bg-primary/10 transition-colors duration-300"
-                aria-label="Facebook"
-                whileHover={{ scale: 1.15, rotate: 5 }}
-                whileTap={{ scale: 0.95 }}
-                transition={{ type: "spring", stiffness: 400, damping: 17 }}
-              >
-                <Facebook className="w-5 h-5 text-primary" />
-              </motion.a>
-              <motion.a
-                href={`https://wa.me/${getWhatsAppNumber()}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="p-3 border border-primary/20 hover:border-primary hover:bg-primary/10 transition-colors duration-300"
-                aria-label="WhatsApp"
-                whileHover={{ scale: 1.15, rotate: -5 }}
-                whileTap={{ scale: 0.95 }}
-                transition={{ type: "spring", stiffness: 400, damping: 17 }}
-              >
-                <MessageCircle className="w-5 h-5 text-primary" />
-              </motion.a>
-            </div>
+            <motion.div 
+              className="flex items-center gap-4"
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, amount: 0.5 }}
+              variants={{
+                hidden: {},
+                visible: {
+                  transition: {
+                    staggerChildren: 0.1
+                  }
+                }
+              }}
+            >
+              {[
+                { href: "https://www.instagram.com/le_manoir_de_lelegance?igsh=YWw0c2d5cTZlZXJ1&utm_source=qr", label: "Instagram", icon: <Instagram className="w-5 h-5 text-primary" />, rotate: 5 },
+                { href: "https://www.tiktok.com/@manoirelegance?_r=1&_t=ZS-93F7ma1TPdN", label: "TikTok", icon: <TikTokIcon className="w-5 h-5 text-primary" />, rotate: -5 },
+                { href: "https://www.facebook.com/share/1Dmub997qX/?mibextid=wwXIfr", label: "Facebook", icon: <Facebook className="w-5 h-5 text-primary" />, rotate: 5 },
+                { href: `https://wa.me/${getWhatsAppNumber()}`, label: "WhatsApp", icon: <MessageCircle className="w-5 h-5 text-primary" />, rotate: -5 }
+              ].map((social) => (
+                <motion.a
+                  key={social.label}
+                  href={social.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="p-3 border border-primary/20 hover:border-primary hover:bg-primary/10 transition-colors duration-300"
+                  aria-label={social.label}
+                  variants={{
+                    hidden: { opacity: 0, y: 20, scale: 0.8 },
+                    visible: { opacity: 1, y: 0, scale: 1 }
+                  }}
+                  whileHover={{ scale: 1.15, rotate: social.rotate }}
+                  whileTap={{ scale: 0.95 }}
+                  transition={{ type: "spring", stiffness: 400, damping: 17 }}
+                >
+                  {social.icon}
+                </motion.a>
+              ))}
+            </motion.div>
           </div>
 
           {/* Copyright */}
