@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { MessageCircle } from "lucide-react";
 
-const WHATSAPP_NUMBER = "221755236363";
+const getWhatsAppNumber = () => localStorage.getItem('whatsapp_number') || '221755236363';
 const WHATSAPP_MESSAGE = encodeURIComponent(
   "Bonjour, je souhaite découvrir les créations du Manoir de l'Élégance."
 );
@@ -9,7 +9,7 @@ const WHATSAPP_MESSAGE = encodeURIComponent(
 export const WhatsAppButton = () => {
   return (
     <motion.a
-      href={`https://wa.me/${WHATSAPP_NUMBER}?text=${WHATSAPP_MESSAGE}`}
+      href={`https://wa.me/${getWhatsAppNumber()}?text=${WHATSAPP_MESSAGE}`}
       target="_blank"
       rel="noopener noreferrer"
       initial={{ opacity: 0, scale: 0 }}

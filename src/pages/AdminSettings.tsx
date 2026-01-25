@@ -21,7 +21,7 @@ const AdminSettings = () => {
   const { resetToDefault } = useCollections();
   const [showResetDialog, setShowResetDialog] = useState(false);
   const [whatsappNumber, setWhatsappNumber] = useState(
-    localStorage.getItem('whatsapp_number') || '1234567890'
+    localStorage.getItem('whatsapp_number') || '221755236363'
   );
 
   const handleReset = () => {
