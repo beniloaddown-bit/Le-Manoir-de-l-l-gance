@@ -13,7 +13,7 @@ const TikTokIcon = ({ className }: { className?: string }) => (
 );
 import logo from "@/assets/logo.png";
 
-const WHATSAPP_NUMBER = "221755236363";
+const getWhatsAppNumber = () => localStorage.getItem('whatsapp_number') || '221755236363';
 const WHATSAPP_MESSAGE = encodeURIComponent(
   "Bonjour, je souhaite en savoir plus sur Le Manoir de l'Élégance."
 );
@@ -43,7 +43,7 @@ export const Footer = () => {
               size="xl"
               onClick={() =>
                 window.open(
-                  `https://wa.me/${WHATSAPP_NUMBER}?text=${WHATSAPP_MESSAGE}`,
+                  `https://wa.me/${getWhatsAppNumber()}?text=${WHATSAPP_MESSAGE}`,
                   "_blank"
                 )
               }
@@ -103,7 +103,7 @@ export const Footer = () => {
                 <Facebook className="w-5 h-5 text-primary" />
               </a>
               <a
-                href={`https://wa.me/${WHATSAPP_NUMBER}`}
+                href={`https://wa.me/${getWhatsAppNumber()}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="p-3 border border-primary/20 hover:border-primary hover:bg-primary/10 transition-all duration-300"
