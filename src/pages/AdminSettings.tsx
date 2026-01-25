@@ -23,6 +23,26 @@ const AdminSettings = () => {
   const [whatsappNumber, setWhatsappNumber] = useState(
     localStorage.getItem('whatsapp_number') || '221755236363'
   );
+  const [phoneError, setPhoneError] = useState('');
+
+  // Validate phone number: must be digits only, 8-15 characters (international format without +)
+  const validatePhoneNumber = (phone: string): boolean => {
+    const cleanedNumber = phone.replace(/\s/g, ''); // Remove spaces
+    const phoneRegex = /^\d{8,15}$/;
+    return phoneRegex.test(cleanedNumber);
+  };
+
+  const handlePhoneChange = (value: string) => {
+    // Allow only digits and spaces
+    const sanitized = value.replace(/[^\d\s]/g, '');
+    setWhatsappNumber(sanitized);
+    
+    if (sanitized && !validatePhoneNumber(sanitized)) {
+      setPhoneError('Le numéro doit contenir uniquement des chiffres (8-15 chiffres, sans le +)');
+    } else {
+      setPhoneError('');
+    }
+  };
 
   const handleReset = () => {
     resetToDefault();
@@ -31,7 +51,14 @@ const AdminSettings = () => {
   };
 
   const handleSaveWhatsapp = () => {
-    localStorage.setItem('whatsapp_number', whatsappNumber);
+    const cleanedNumber = whatsappNumber.replace(/\s/g, '');
+    
+    if (!validatePhoneNumber(cleanedNumber)) {
+      toast.error('Format de numéro invalide');
+      return;
+    }
+    
+    localStorage.setItem('whatsapp_number', cleanedNumber);
     toast.success('Numéro WhatsApp enregistré');
   };
 
@@ -67,19 +94,28 @@ const AdminSettings = () => {
             Contact WhatsApp
           </h2>
           <p className="text-sm text-muted-foreground">
-            Numéro de téléphone pour les commandes via WhatsApp
+            Numéro de téléphone pour les commandes via WhatsApp (format: indicatif pays + numéro, ex: 221755236363)
           </p>
-          <div className="flex gap-3">
-            <Input
-              value={whatsappNumber}
-              onChange={(e) => setWhatsappNumber(e.target.value)}
-              placeholder="Numéro WhatsApp (avec indicatif pays)"
-              className="flex-1"
-            />
-            <Button onClick={handleSaveWhatsapp} className="bg-primary text-primary-foreground">
-              <Save className="w-4 h-4 mr-2" />
-              Enregistrer
-            </Button>
+          <div className="space-y-2">
+            <div className="flex gap-3">
+              <Input
+                value={whatsappNumber}
+                onChange={(e) => handlePhoneChange(e.target.value)}
+                placeholder="Ex: 221755236363"
+                className={`flex-1 ${phoneError ? 'border-destructive focus-visible:ring-destructive' : ''}`}
+              />
+              <Button 
+                onClick={handleSaveWhatsapp} 
+                className="bg-primary text-primary-foreground"
+                disabled={!!phoneError || !whatsappNumber}
+              >
+                <Save className="w-4 h-4 mr-2" />
+                Enregistrer
+              </Button>
+            </div>
+            {phoneError && (
+              <p className="text-sm text-destructive">{phoneError}</p>
+            )}
           </div>
         </motion.div>
 
