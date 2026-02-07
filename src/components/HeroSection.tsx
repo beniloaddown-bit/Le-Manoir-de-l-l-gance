@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import heroImage from "@/assets/hero-image.jpg";
 import { useRef } from "react";
 
-const WHATSAPP_NUMBER = "1234567890";
+const WHATSAPP_NUMBER = "221775236363";
 const WHATSAPP_MESSAGE = encodeURIComponent(
   "Bonjour, je souhaite découvrir les créations du Manoir de l'Élégance."
 );
