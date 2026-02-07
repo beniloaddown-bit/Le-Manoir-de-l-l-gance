@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { MessageCircle } from "lucide-react";
 
-const getWhatsAppNumber = () => localStorage.getItem('whatsapp_number') || '221775236363';
+const getWhatsAppNumber = () => localStorage.getItem('whatsapp_number') || '221755236363';
 const WHATSAPP_MESSAGE = encodeURIComponent(
   "Bonjour, je souhaite découvrir les créations du Manoir de l'Élégance."
 );

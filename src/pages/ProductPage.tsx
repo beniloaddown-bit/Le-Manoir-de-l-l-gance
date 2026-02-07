@@ -26,7 +26,7 @@ const ProductPage = () => {
     return <Navigate to="/" replace />;
   }
 
-  const whatsappNumber = localStorage.getItem('whatsapp_number') || '221775236363';
+  const whatsappNumber = localStorage.getItem('whatsapp_number') || '221755236363';
   const whatsappMessage = encodeURIComponent(
     `Bonjour, je suis intéressé(e) par "${product.name}" de la collection ${collection.title} du Manoir de l'Élégance. Je souhaite obtenir plus d'informations et un devis personnalisé.`
   );

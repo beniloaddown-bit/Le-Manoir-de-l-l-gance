@@ -21,7 +21,7 @@ const AdminSettings = () => {
   const { resetToDefault } = useCollections();
   const [showResetDialog, setShowResetDialog] = useState(false);
   const [whatsappNumber, setWhatsappNumber] = useState(
-    localStorage.getItem('whatsapp_number') || '221775236363'
+    localStorage.getItem('whatsapp_number') || '221755236363'
   );
   const [phoneError, setPhoneError] = useState('');
 
@@ -101,7 +101,7 @@ const AdminSettings = () => {
               <Input
                 value={whatsappNumber}
                 onChange={(e) => handlePhoneChange(e.target.value)}
-                placeholder="Ex: 221775236363"
+                placeholder="Ex: 221755236363"
                 className={`flex-1 ${phoneError ? 'border-destructive focus-visible:ring-destructive' : ''}`}
               />
               <Button 

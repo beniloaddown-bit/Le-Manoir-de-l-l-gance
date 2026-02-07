@@ -3,7 +3,7 @@ import weddingImage from "@/assets/collection-wedding.jpg";
 import businessImage from "@/assets/collection-business.jpg";
 import bespokeImage from "@/assets/collection-bespoke.jpg";
 
-export const WHATSAPP_NUMBER = "221775236363";
+export const WHATSAPP_NUMBER = "221755236363";
 
 export interface Product {
   id: string;
