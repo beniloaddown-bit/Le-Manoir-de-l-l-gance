@@ -20,7 +20,7 @@ const WHATSAPP_MESSAGE = encodeURIComponent(
 
 export const Footer = () => {
   return (
-    <footer id="contact" className="bg-noir-light border-t border-primary/10">
+    <footer id="contact" className="bg-noir-light border-t border-primary/10 scroll-mt-24">
       {/* CTA Section */}
       <div className="py-20 border-b border-primary/10">
         <div className="container mx-auto px-6 text-center">

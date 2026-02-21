@@ -122,7 +122,7 @@ export const ServicesSection = () => {
     <section
       id="services"
       ref={sectionRef}
-      className="py-32 bg-gradient-to-b from-noir-light to-background relative overflow-hidden"
+      className="py-32 bg-gradient-to-b from-noir-light to-background relative overflow-hidden scroll-mt-24"
     >
       <motion.div 
         className="absolute inset-0"

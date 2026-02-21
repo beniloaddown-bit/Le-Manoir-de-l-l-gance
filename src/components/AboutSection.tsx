@@ -40,7 +40,7 @@ export const AboutSection = () => {
     <section
       id="histoire"
       ref={sectionRef}
-      className="relative py-32 bg-gradient-to-b from-background to-noir-light overflow-hidden"
+      className="relative py-32 bg-gradient-to-b from-background to-noir-light overflow-hidden scroll-mt-24"
     >
       <motion.div 
         className="absolute top-0 left-0 w-64 h-64 bg-primary/5 rounded-full blur-3xl"

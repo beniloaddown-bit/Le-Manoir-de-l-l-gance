@@ -27,7 +27,7 @@ export const HeroSection = () => {
     <section
       id="accueil"
       ref={sectionRef}
-      className="relative min-h-screen flex items-center justify-center overflow-hidden"
+      className="relative min-h-screen flex items-center justify-center overflow-hidden scroll-mt-24"
     >
       {/** Lire le numéro depuis les réglages admin (localStorage) avec fallback */}
       {/** Note: pas d'état nécessaire, la lecture à l'ouverture suffit */}

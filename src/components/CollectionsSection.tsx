@@ -162,7 +162,7 @@ export const CollectionsSection = () => {
     <section 
       id="collections" 
       ref={sectionRef} 
-      className="py-32 bg-background relative overflow-hidden"
+      className="py-32 bg-background relative overflow-hidden scroll-mt-24"
     >
       <motion.div
         className="absolute inset-0 pointer-events-none"
