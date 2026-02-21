@@ -4,7 +4,6 @@ import { Button } from "@/components/ui/button";
 import heroImage from "@/assets/hero-image.jpg";
 import { useRef } from "react";
 
-const WHATSAPP_NUMBER = "221755236363";
 const WHATSAPP_MESSAGE = encodeURIComponent(
   "Bonjour, je souhaite découvrir les créations du Manoir de l'Élégance."
 );
@@ -30,6 +29,10 @@ export const HeroSection = () => {
       ref={sectionRef}
       className="relative min-h-screen flex items-center justify-center overflow-hidden"
     >
+      {/** Lire le numéro depuis les réglages admin (localStorage) avec fallback */}
+      {/** Note: pas d'état nécessaire, la lecture à l'ouverture suffit */}
+      {/** En cas de changement en cours de session, un rafraîchissement reflètera les réglages */}
+      const whatsappNumber = localStorage.getItem('whatsapp_number') || '221755236363';
       {/* Background Image with Parallax */}
       <motion.div 
         className="absolute inset-0"
@@ -141,14 +144,14 @@ export const HeroSection = () => {
                 variant="whatsapp"
                 size="xl"
                 className="group"
-                onClick={() =>
-                  window.open(
-                    `https://wa.me/${WHATSAPP_NUMBER}?text=${WHATSAPP_MESSAGE}`,
+              onClick={() =>
+                window.open(
+                    `https://wa.me/${whatsappNumber}?text=${WHATSAPP_MESSAGE}`,
                     "_blank"
-                  )
-                }
-              >
-                <MessageCircle className="w-5 h-5 transition-transform group-hover:scale-110" />
+                )
+              }
+            >
+              <MessageCircle className="w-5 h-5 transition-transform group-hover:scale-110" />
                 <span>Commander via WhatsApp</span>
               </Button>
             </motion.div>

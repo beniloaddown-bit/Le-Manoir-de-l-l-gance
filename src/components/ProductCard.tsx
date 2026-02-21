@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { MessageCircle, Eye } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Product, WHATSAPP_NUMBER } from "@/data/collections";
+import { Product } from "@/data/collections";
 import { Link } from "react-router-dom";
 
 interface ProductCardProps {
@@ -11,6 +11,7 @@ interface ProductCardProps {
 }
 
 export const ProductCard = ({ product, collectionSlug, index }: ProductCardProps) => {
+  const whatsappNumber = localStorage.getItem('whatsapp_number') || '221755236363';
   const whatsappMessage = encodeURIComponent(
     `Bonjour, je suis intéressé(e) par "${product.name}" du Manoir de l'Élégance. Pouvez-vous me donner plus d'informations et un devis personnalisé?`
   );
@@ -102,7 +103,7 @@ export const ProductCard = ({ product, collectionSlug, index }: ProductCardProps
               className="flex-1"
               onClick={() =>
                 window.open(
-                  `https://wa.me/${WHATSAPP_NUMBER}?text=${whatsappMessage}`,
+                  `https://wa.me/${whatsappNumber}?text=${whatsappMessage}`,
                   "_blank"
                 )
               }
