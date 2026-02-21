@@ -23,16 +23,15 @@ export const HeroSection = () => {
   const contentOpacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
   const overlayOpacity = useTransform(scrollYProgress, [0, 0.5], [0.5, 0.8]);
 
+  // Lire le numéro depuis les réglages admin (localStorage) avec fallback
+  const whatsappNumber = localStorage.getItem('whatsapp_number') || '221755236363';
+
   return (
     <section
       id="accueil"
       ref={sectionRef}
       className="relative min-h-screen flex items-center justify-center overflow-hidden scroll-mt-24"
     >
-      {/** Lire le numéro depuis les réglages admin (localStorage) avec fallback */}
-      {/** Note: pas d'état nécessaire, la lecture à l'ouverture suffit */}
-      {/** En cas de changement en cours de session, un rafraîchissement reflètera les réglages */}
-      const whatsappNumber = localStorage.getItem('whatsapp_number') || '221755236363';
       {/* Background Image with Parallax */}
       <motion.div 
         className="absolute inset-0"
